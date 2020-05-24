@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class SFXLevel : MonoBehaviour, IEndDragHandler, IPointerUpHandler
 {
-    const SFX CLIPTOPLAYTOSETVOLLEVEL = SFX.pause;
+    const SFX CLIPTOPLAYTOSETLEVEL = SFX.pause;
 
     AudioMixer mixer;
 
@@ -24,7 +24,7 @@ public class SFXLevel : MonoBehaviour, IEndDragHandler, IPointerUpHandler
         else
         {
             mixer.SetFloat("SFXVol", Mathf.Log10(sliderValue) * 30);
-            SFXManager.instance.PlayClip(CLIPTOPLAYTOSETVOLLEVEL, Vector3.zero);
+            SFXManager.instance.PlayClip(CLIPTOPLAYTOSETLEVEL, Vector3.zero);
         }
 
     }
