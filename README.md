@@ -1,5 +1,8 @@
 # gamejamframework
-A simple set of tools that are regularly used in game jams.
+A simple framework with tools that are regularly used in game jams. Built in Unity3D version 2019.3.14f1.
+
+Instructions: Download this Unity project, open in Unity and use as a starting point for your jam. 
+
 
 This is an early work in progress. So far it includes:
 
