@@ -20,14 +20,17 @@ using System.Collections.Generic;
 public enum Music
 {
     SelectMusicType = 0,
-    MainMenuMusic = 1,
-    GameplayLoopRegular = 2,
-    GameplayLoopIntense = 3,
-    LevelIntro = 4,
-    LevelRestart = 5,
-    LoseLevel = 6,
-    WinLevel = 7,
-    WinGame = 8
+    MainMenuLoopIntro = 1,
+    MainMenuLoop = 2,
+    LevelStart = 3,
+    GameplayLoopIntro = 4,
+    GameplayLoop = 5,
+    LevelRestart = 6,
+    LoseLevel = 7,
+    WinLevel = 8,
+    WinGame = 9,
+    LoseGame = 10,
+    EndCredits = 11
 }
 
 [System.Serializable]
@@ -85,10 +88,10 @@ public class MusicManager : MonoBehaviour
     {
         int index = SceneManager.GetActiveScene().buildIndex;
         if (index == 0)
-            PlayMusic(Music.MainMenuMusic, true);
+            PlayMusic(Music.MainMenuLoop, true);
         else
         {
-            PlayMusic(Music.GameplayLoopRegular);
+            PlayMusic(Music.GameplayLoop, true);
         }   
     }
 
@@ -111,22 +114,22 @@ public class MusicManager : MonoBehaviour
             CrossFadeAtoB(audioSources[1], audioSources[0], crossfadeDuration);
         }
     }
-    /*
-    public void PlayMusicWIntro(AudioClip introClip, AudioClip loopingClip)
+    
+    public void PlayMusicWIntro(Music introClip, Music loopingClip)
     {
         StopOtherMusicCoroutines();
         StartCoroutine(PlayMusicIntro(introClip, loopingClip));
     }
 
-    IEnumerator PlayMusicIntro(AudioClip introClip, AudioClip loopingClip)
+    IEnumerator PlayMusicIntro(Music introClip, Music loopingClip)
     {
         audioSources[0].Stop();
-        audioSources[0].clip = introClip;
+        audioSources[0].clip = GetClip(introClip);
         audioSources[0].loop = false;
         audioSources[0].Play();
         yield return new WaitForSeconds(audioSources[0].clip.length);
-        StartMusicLoop(loopingClip);
-    }*/
+        PlayMusic(loopingClip, true);
+    }
 
     public AudioClip GetClip(Music clipName)
     {
@@ -156,12 +159,18 @@ public class MusicManager : MonoBehaviour
         audioSources[0].Play();
     }
 
-    public void PlayTwoMusicLoops(Music clipA, Music clipB, float delay = 0)
+    // for crossfading between two tones of music
+    public void PlayTwoMusicLoopsSimultaneous(Music clipA, Music clipB, float delay = 0)
     {
-        StartCoroutine(DelayingTwoMusicClips(clipA, clipB, delay));
+        if (delay < 0)
+        {
+            Debug.LogError("Cannot have delay less than 0. Setting to 0.");
+            delay = 0;
+        }
+        StartCoroutine(PlayTwoMusicLoopsSimultaneousCoro(clipA, clipB, delay));
     }
 
-    IEnumerator DelayingTwoMusicClips(Music clipA, Music clipB, float delay)
+    IEnumerator PlayTwoMusicLoopsSimultaneousCoro(Music clipA, Music clipB, float delay)
     {
         yield return new WaitForSeconds(delay);
         StartTwoLoops(clipA, clipB);

@@ -18,20 +18,10 @@ using UnityEngine.Audio;
 public enum SFX
 {
     selectSfxName = 0,
-    barrelExplode = 1,
-    gunshot = 2,
-    banditCaptured = 3,
-    heroDies = 4,
-    heroDash = 5,
-    chickenScatter = 6,
-    heroFall = 7,
-    pause = 8,
-    unpause = 9,
-    startGameYeehaw = 10,
-    mainMenuSFXChange = 11,
-    bottleBreak = 12,
-    outlawVO = 13,
-    ricochet = 14
+    menuSelect = 1, // 1-4 are examples, feel free to delete at start of project
+    pause = 2, 
+    unpause = 3,
+    playerDies = 4
 }
 
 [System.Serializable]
